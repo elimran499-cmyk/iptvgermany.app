@@ -6,6 +6,22 @@ import {defineConfig} from 'vite';
 export default defineConfig(() => {
   return {
     plugins: [react(), tailwindcss()],
+    build: {
+      rollupOptions: {
+        output: {
+          // React und Motion aendern sich zwischen Deploys nicht — als eigener
+          // Chunk bleiben sie beim naechsten Besuch im Cache, statt bei jeder
+          // Textaenderung erneut geladen zu werden.
+          manualChunks(id: string) {
+            if (!id.includes('node_modules')) return undefined;
+            if (id.includes('/motion') || id.includes('framer-motion')) return 'motion';
+            if (id.includes('/react/') || id.includes('/react-dom/') ||
+                id.includes('/scheduler/')) return 'react';
+            return undefined;
+          },
+        },
+      },
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

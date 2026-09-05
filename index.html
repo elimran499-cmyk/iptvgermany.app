@@ -44,6 +44,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Die H1 — der groesste Textblock der Seite und damit ihr LCP — steht in
+         dieser Schrift. Ohne Vorladen wird sie erst beim Parsen des CSS
+         entdeckt, also eine Rundreise spaeter; `font-display: swap` zeigt so
+         lange die Systemschrift und laesst den Text danach umspringen.
+         Nur der Latin-Schnitt: der Ext-Schnitt deckt Zeichen ab, die auf
+         einer deutschen Seite kaum vorkommen. -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href="/fonts/bricolage-grotesque-latin.woff2"
+    />
+
     <!-- Kopfbegriff dieser Seite: „IPTV Germany". Er steht im Title voran,
          in der Description, in der H1 (src/data/iptvData.ts → SEO.h1Before),
          in sechs Abschnittsüberschriften und in der ersten FAQ-Frage. -->
