@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Intro } from './components/Intro';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -15,29 +15,20 @@ import { Reviews } from './components/Reviews';
 import { FAQ } from './components/FAQ';
 import { FinalCta } from './components/FinalCta';
 import { Footer } from './components/Footer';
-import { OrderModal } from './components/OrderModal';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { MobileCtaBar } from './components/MobileCtaBar';
 
 export default function App() {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedPlanId, setSelectedPlanId] = useState('plan-12m');
-
-  const handleOpenOrderModal = (planId?: string) => {
-    if (planId) setSelectedPlanId(planId);
-    setModalOpen(true);
-  };
-
   return (
     <div className="min-h-screen overflow-x-hidden bg-page pb-[76px] font-sans text-ink sm:pb-0">
       <Intro />
-      <Navbar onOpenOrderModal={handleOpenOrderModal} />
+      <Navbar />
 
       <main>
-        <Hero onOpenOrderModal={handleOpenOrderModal} />
+        <Hero />
         <Channels />
         <FilmsSeries />
-        <Pricing onOpenOrderModal={handleOpenOrderModal} />
+        <Pricing />
         <AppCompat />
         <Benefits />
         <BuySteps />
@@ -51,13 +42,7 @@ export default function App() {
 
       <Footer />
       <FloatingWhatsApp />
-      <MobileCtaBar onOpenOrderModal={handleOpenOrderModal} />
-
-      <OrderModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        initialPlanId={selectedPlanId}
-      />
+      <MobileCtaBar />
     </div>
   );
 }

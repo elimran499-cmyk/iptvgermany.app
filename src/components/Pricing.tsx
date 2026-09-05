@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Award, ChevronDown, Monitor, ShieldCheck, Sparkles, Zap } from 'lucide-react';
+import { Award, Monitor, ShieldCheck, Sparkles, Zap } from 'lucide-react';
 import {
   AnimatePresence,
   animate,
@@ -52,12 +52,6 @@ const AnimatedEuro: React.FC<{ value: number; className?: string }> = ({ value, 
 
 const DEVICE_COUNTS = [1, 2, 3, 4] as const;
 
-/* Wie viele Leistungszeilen eine Karte auf dem Telefon zeigt, bevor der Rest
- * hinter „Alle Leistungen anzeigen" liegt. Ab `sm` stehen die Karten
- * nebeneinander und die Liste ist immer vollständig — der Umschalter selbst
- * ist dort ausgeblendet, nicht nur wirkungslos. Die Zeilen bleiben im DOM
- * (nur `hidden`), damit Suchmaschinen und Vorlesetechnik alles sehen. */
-const FEATURE_PREVIEW = 4;
 
 export const Pricing: React.FC = () => {
   const [tier, setTier] = React.useState<PackageTier['id']>('basic');
@@ -326,7 +320,6 @@ const PackCard: React.FC<PackCardProps> = ({
   orderMessage,
   reduceMotion,
 }) => {
-  const [showAllFeatures, setShowAllFeatures] = React.useState(false);
   const price = pack.prices[tier][devices - 1];
   const perMonth = price / pack.months;
   const best = !!pack.bestDeal;
@@ -465,9 +458,9 @@ const PackCard: React.FC<PackCardProps> = ({
                       exit: { opacity: 0, y: -4, transition: { duration: 0.18, ease: 'easeOut' } },
                     }
               }
-              className={`feature-row -mx-2 items-baseline gap-3 rounded-lg px-2 py-2.5 ${
-                idx >= FEATURE_PREVIEW && !showAllFeatures ? 'hidden sm:flex' : 'flex'
-              } ${idx < 2 ? 'font-semibold text-ink' : 'text-muted'}`}
+              className={`feature-row -mx-2 flex items-baseline gap-3 rounded-lg px-2 py-2.5 ${
+                idx < 2 ? 'font-semibold text-ink' : 'text-muted'
+              }`}
             >
               <span className="text-orange-deep" aria-hidden="true">—</span>
               {feature}
@@ -476,22 +469,6 @@ const PackCard: React.FC<PackCardProps> = ({
         </motion.ul>
       </AnimatePresence>
 
-      {features.length > FEATURE_PREVIEW && (
-        <button
-          type="button"
-          onClick={() => setShowAllFeatures((v) => !v)}
-          aria-expanded={showAllFeatures}
-          className="relative mt-3 flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-xl border border-hairline text-[13px] font-bold text-orange-deep sm:hidden"
-        >
-          {showAllFeatures
-            ? 'Weniger anzeigen'
-            : `Alle ${features.length} Leistungen anzeigen`}
-          <ChevronDown
-            className={`h-4 w-4 transition-transform duration-200 ${showAllFeatures ? 'rotate-180' : ''}`}
-            aria-hidden="true"
-          />
-        </button>
-      )}
     </article>
   );
 };

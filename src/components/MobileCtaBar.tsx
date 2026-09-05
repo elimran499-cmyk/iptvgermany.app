@@ -25,11 +25,7 @@ import { WhatsAppGlyph } from './ui';
 const CHEAPEST = Math.min(...DURATION_PACKS.map((pack) => pack.prices.basic[0]));
 const formatEuro = (val: number) => `${val.toFixed(2).replace('.', ',')} €`;
 
-interface MobileCtaBarProps {
-  onOpenOrderModal: (planId?: string) => void;
-}
-
-export const MobileCtaBar: React.FC<MobileCtaBarProps> = ({ onOpenOrderModal }) => {
+export const MobileCtaBar: React.FC = () => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -59,11 +55,10 @@ export const MobileCtaBar: React.FC<MobileCtaBarProps> = ({ onOpenOrderModal }) 
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={() => onOpenOrderModal('pack-15m')}
+        <a
+          href="#pricing"
           tabIndex={visible ? 0 : -1}
-          className="flex h-11 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full pl-3.5 pr-4 text-[13.5px] font-bold text-white shadow-[0_12px_26px_-12px_rgba(var(--brand-b-deep-rgb),0.6)]"
+          className="flex h-11 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full pl-3.5 pr-4 text-[13.5px] font-bold text-white no-underline shadow-[0_12px_26px_-12px_rgba(var(--brand-b-deep-rgb),0.6)]"
           style={{
             background:
               'linear-gradient(135deg, var(--color-orange), var(--color-magenta))',
@@ -71,7 +66,7 @@ export const MobileCtaBar: React.FC<MobileCtaBarProps> = ({ onOpenOrderModal }) 
         >
           <Sparkles className="h-4 w-4" aria-hidden="true" />
           Paket wählen
-        </button>
+        </a>
 
         <a
           href={CONTACT.whatsapp}

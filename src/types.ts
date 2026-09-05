@@ -1,28 +1,3 @@
-export interface PricingPlan {
-  id: string;
-  duration: string;
-  price: string;
-  originalPrice: string;
-  perMonthLabel: string;
-  highlightLabel: string;
-  highlightIcon: string;
-  ribbon?: string;
-  badge?: string;
-  featured?: boolean;
-  screens: string;
-  features: string[];
-}
-
-export interface MultiScreenPlan {
-  id: string;
-  title: string;
-  price: string;
-  screensLabel: string;
-  badge: string;
-  badgeIcon: string;
-  connections: string;
-}
-
 export interface BenefitCard {
   id: string;
   title: string;

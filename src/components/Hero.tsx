@@ -5,10 +5,6 @@ import { BRAND, CONTACT, SEO } from '../data/iptvData';
 import { ALL_CHANNELS, TOTAL_CHANNELS } from '../data/catalog';
 import { GlassButton, WhatsAppGlyph } from './ui';
 
-interface HeroProps {
-  onOpenOrderModal: (planId?: string) => void;
-}
-
 /** Three columns of channel logos, dealt round-robin so no column repeats a
  *  neighbour's rhythm. Each column list is used twice back-to-back — with
  *  `translateY(-50%)` cycling the track, the seam lands exactly on the
@@ -88,7 +84,7 @@ const ChannelDriftPanel: React.FC<{ reduceMotion: boolean }> = ({ reduceMotion }
  * mehr Relevanz, ohne dass irgendwo Text doppelt steht. */
 const TRUST_CHIPS = ['Sichere Zahlung', 'WhatsApp-Support', SEO.keyword];
 
-export const Hero: React.FC<HeroProps> = ({ onOpenOrderModal }) => {
+export const Hero: React.FC = () => {
   const reduceMotion = !!useReducedMotion();
   const [readMore, setReadMore] = useState(false);
   const rise = (delay: number) =>
@@ -155,8 +151,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenOrderModal }) => {
               variant="primary"
               size="lg"
               className="min-h-[60px] flex-1 justify-between"
-              data-cta="order"
-              onClick={() => onOpenOrderModal('plan-12m')}
+              href="#pricing"
             >
               Angebote ansehen
               <ArrowRight className="h-5 w-5 shrink-0" aria-hidden="true" />

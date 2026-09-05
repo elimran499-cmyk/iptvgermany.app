@@ -14,8 +14,6 @@ import type {
   ComparisonRow,
   CustomerReview,
   FAQItem,
-  MultiScreenPlan,
-  PricingPlan,
   StepCard,
 } from '../types';
 
@@ -88,88 +86,6 @@ const CORE_FEATURES = [
  */
 export const HOW_IMAGE = photoAbonnementPremium;
 export const FOOTBALL_IMAGE = photoFranceIptvB;
-
-export const PRICING_PLANS: PricingPlan[] = [
-  {
-    id: 'plan-3m',
-    duration: '3 Monate',
-    price: '29,00 €',
-    originalPrice: '34,95 €',
-    perMonthLabel: 'Maximal flexibel • 9,67 €/Monat',
-    highlightLabel: 'Flexible Wahl — keine lange Laufzeit',
-    highlightIcon: '🎬',
-    screens: '1 Gerät',
-    features: CORE_FEATURES,
-  },
-  {
-    id: 'plan-12m',
-    duration: '12 Monate',
-    price: '49,00 €',
-    originalPrice: '69,95 €',
-    perMonthLabel: 'Am häufigsten gewählt • 4,08 €/Monat',
-    highlightLabel: 'Maximaler Vorteil — bester Preis',
-    highlightIcon: '🚀',
-    ribbon: 'Beliebt',
-    screens: '1 Gerät',
-    features: CORE_FEATURES,
-  },
-  {
-    id: 'plan-12m-family',
-    duration: '12 Monate',
-    price: '79,00 €',
-    originalPrice: '98,00 €',
-    perMonthLabel: 'Familienpaket • 2 Geräte gleichzeitig',
-    highlightLabel: 'Perfekt für Familien',
-    highlightIcon: '👨‍👩‍👧',
-    badge: '🔥Bestes Angebot',
-    featured: true,
-    screens: '2 Geräte gleichzeitig',
-    features: CORE_FEATURES,
-  },
-  {
-    id: 'plan-24m',
-    duration: '24 Monate',
-    price: '89,00 €',
-    originalPrice: '150,00 €',
-    perMonthLabel: 'Längste Laufzeit • 3,71 €/Monat',
-    highlightLabel: 'Bester Preis pro Monat',
-    highlightIcon: '🌍',
-    screens: '1 Gerät',
-    features: CORE_FEATURES,
-  },
-];
-
-export const MULTISCREEN_PLANS: MultiScreenPlan[] = [
-  {
-    id: 'ms-3',
-    title: '12 Monate • 3 Bildschirme',
-    price: '109,00 €',
-    screensLabel: '3 Bildschirme gleichzeitig • 9,08 €/Mon.',
-    badge: 'Bester Preis pro Monat',
-    badgeIcon: '🔥',
-    connections: '3 gleichzeitige Verbindungen',
-  },
-  {
-    id: 'ms-4',
-    title: '12 Monate • 4 Bildschirme',
-    price: '139,00 €',
-    screensLabel: '4 Bildschirme gleichzeitig • 11,58 €/Mon.',
-    badge: 'Bester Preis pro Monat',
-    badgeIcon: '🔥',
-    connections: '4 gleichzeitige Verbindungen',
-  },
-  {
-    id: 'ms-5',
-    title: '12 Monate • 5 Bildschirme',
-    price: '169,00 €',
-    screensLabel: '5 Bildschirme gleichzeitig • 14,08 €/Mon.',
-    badge: 'Von Familien am häufigsten gewählt',
-    badgeIcon: '👨‍👩‍👧',
-    connections: '5 gleichzeitige Verbindungen',
-  },
-];
-
-export const MULTISCREEN_FEATURES = CORE_FEATURES;
 
 export const BENEFITS: BenefitCard[] = [
   {

@@ -4,10 +4,6 @@ import { motion, useReducedMotion } from 'motion/react';
 import { BRAND, CONTACT, NAV_LINKS } from '../data/iptvData';
 import { GlassButton, Logo, LogoMark, WhatsAppGlyph } from './ui';
 
-interface NavbarProps {
-  onOpenOrderModal: (planId?: string) => void;
-}
-
 /**
  * Desktop/tablet (`sm:` and up) keeps one conventional sticky bar throughout.
  *
@@ -19,7 +15,7 @@ interface NavbarProps {
  * the fold. The badge is centred with `left-1/2 -translate-x-1/2`, so the
  * pill's width on the left can never push it off-centre.
  */
-export const Navbar: React.FC<NavbarProps> = ({ onOpenOrderModal }) => {
+export const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const reduceMotion = !!useReducedMotion();
@@ -80,7 +76,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenOrderModal }) => {
             >
               <WhatsAppGlyph className="h-5 w-5" />
             </a>
-            <GlassButton variant="primary" size="sm" onClick={() => onOpenOrderModal('plan-12m')}>
+            <GlassButton variant="primary" size="sm" href="#pricing">
               Jetzt bestellen
             </GlassButton>
             <button
@@ -117,10 +113,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenOrderModal }) => {
               size="lg"
               fullWidth
               className="mt-5"
-              onClick={() => {
-                setOpen(false);
-                onOpenOrderModal('plan-12m');
-              }}
+              href="#pricing"
+              onClick={() => setOpen(false)}
             >
               Jetzt bestellen
             </GlassButton>
@@ -152,16 +146,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenOrderModal }) => {
         />
 
         <div className="relative flex h-12 items-center justify-between">
-          <button
-            type="button"
-            onClick={() => onOpenOrderModal('plan-12m')}
+          <a
+            href="#pricing"
             tabIndex={scrolled ? 0 : -1}
-            className="flex h-11 items-center gap-1.5 whitespace-nowrap rounded-full pl-3.5 pr-4 text-[13px] font-bold text-white shadow-[0_12px_26px_-12px_rgba(var(--brand-b-deep-rgb), 0.6)]"
+            className="flex h-11 items-center gap-1.5 whitespace-nowrap rounded-full pl-3.5 pr-4 text-[13px] font-bold text-white no-underline shadow-[0_12px_26px_-12px_rgba(var(--brand-b-deep-rgb), 0.6)]"
             style={{ background: 'linear-gradient(135deg,var(--color-orange),var(--color-magenta))' }}
           >
             <Sparkles className="h-4 w-4" aria-hidden="true" />
             Paket wählen
-          </button>
+          </a>
 
           {/* Centre badge — absolutely centred on the viewport strip, so the
               pill's width to the left can never nudge it off-centre. */}
@@ -222,10 +215,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenOrderModal }) => {
               size="lg"
               fullWidth
               className="mt-5"
-              onClick={() => {
-                setOpen(false);
-                onOpenOrderModal('plan-12m');
-              }}
+              href="#pricing"
+              onClick={() => setOpen(false)}
             >
               Jetzt bestellen
             </GlassButton>
