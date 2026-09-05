@@ -1,40 +1,24 @@
 import React from 'react';
+import logoMark from '../assets/logo-mark.png';
 import { BRAND, PAYMENT_ICONS, PAYMENT_ICONS_ALT } from '../data/iptvData';
 
 /**
- * Die Bildmarke: ein kantiger vierzackiger Funkelstern — scharfe, spitz
- * zulaufende Zacken, keine weichen Kurven — mit einem kleineren zweiten
- * Funkeln versetzt dahinter. Beide sind geradlinige Polygone, die Form
- * bleibt also in jeder Größe knackig. Gefüllt mit dem Markenverlauf.
- * Dazu die Wortmarke: `BRAND.mark1` fett, `BRAND.mark2` leichter, eng
- * gesetzt. Ab 32px Höhe klar lesbar.
+ * Die Bildmarke der Seite — gelieferte Artwork-Datei, keine Inline-SVG mehr.
+ * Jede Schwesterseite legt ihre eigene `logo-mark.png` an dieselbe Stelle,
+ * der Code bleibt identisch.
+ *
+ * Bewusst nur die Marke ohne Grund: `Logo` setzt sie auf einen dunklen Chip
+ * (siehe dort), die Intro-Karte und das Telefon-Badge bringen ihren eigenen
+ * dunklen Grund schon mit.
  */
-/** Icon-only mark — the angular sparkle, no wordmark. Reused anywhere the
- * full `Logo` is too wide, e.g. the phone floating-header badge. */
-/* Restrained idle/hover motion, transform/opacity only, disabled under
- * prefers-reduced-motion in index.css: the small offset sparkle twinkles
- * gently at rest, and the whole mark lifts a touch on hover/focus of its
- * containing link or button. Shape and colours are unchanged from the
- * original mark — no asset regeneration needed. */
-export const MYTV_MARK_D =
-  'M39.53 1.03L33.2 23.96L53.9 27.89L29.6 32.17L14.89 54.76L21.39 32.34L20.19 31.83L0.0 28.24L24.98 23.96L39.36 1.2ZM49.8 9.07L45.69 23.44L41.93 22.93L41.24 22.59L49.63 9.24ZM43.12 32.51L45.86 32.68L64.0 36.11L39.7 40.39L24.98 62.97L31.49 41.07L31.49 40.56L30.97 40.21L28.41 39.87L30.97 35.08L31.83 34.57L42.95 32.68Z';
-
-export const LogoMark: React.FC<{ className?: string; gradientId?: string }> = ({
-  className = 'h-6 w-6',
-  gradientId = 'mytvGrad',
-}) => (
-  <svg viewBox="0 0 64 64" className={`logo-mark ${className}`} aria-hidden="true">
-    <defs>
-      <linearGradient id={gradientId} x1="4" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stopColor="var(--color-orange)" />
-        <stop offset="100%" stopColor="var(--color-magenta)" />
-      </linearGradient>
-    </defs>
-    {/* Traced directly from the reference artwork the user supplied, so the
-        silhouette matches it exactly rather than approximating it. The main
-        star and its offset sparkle are separate rings in one evenodd path. */}
-    <path d={MYTV_MARK_D} fill={`url(#${gradientId})`} fillRule="evenodd" />
-  </svg>
+export const LogoMark: React.FC<{ className?: string }> = ({ className = 'h-6 w-6' }) => (
+  <img
+    src={logoMark}
+    alt=""
+    aria-hidden="true"
+    decoding="async"
+    className={`logo-mark object-contain ${className}`}
+  />
 );
 
 /**
@@ -47,7 +31,16 @@ export const Logo: React.FC<{ className?: string }> = ({ className = 'h-8 sm:h-9
     className={`flex shrink-0 items-center gap-2 no-underline ${className}`}
     aria-label={`${BRAND.full} — Startseite`}
   >
-    <LogoMark className="h-full w-auto shrink-0" />
+    <span
+      className="flex h-full aspect-square shrink-0 items-center justify-center rounded-[0.65rem]"
+      style={{ background: 'var(--ink-solid)' }}
+    >
+      {/* Prozentgroesse statt h-full: der Chip leitet seine Breite ueber
+          `aspect-square` aus der Hoehe ab, und ein h-full-Kind darin hat
+          keine aufloesbare Bezugshoehe — die Marke schrumpfte auf wenige
+          Pixel. 68% laesst ringsum den Rand stehen, den der Chip braucht. */}
+      <LogoMark className="h-[68%] w-[68%]" />
+    </span>
     <span className="flex items-baseline leading-none">
       <span className="text-[17px] font-extrabold tracking-tight text-ink sm:text-[19px]">
         {BRAND.mark1}

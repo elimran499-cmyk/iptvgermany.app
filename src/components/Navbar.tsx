@@ -163,7 +163,7 @@ export const Navbar: React.FC = () => {
             tabIndex={scrolled ? 0 : -1}
             className="absolute left-1/2 top-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl bg-[var(--ink-solid)] shadow-[0_12px_24px_-10px_rgba(var(--ink-rgb), 0.6)]"
           >
-            <LogoMark className="h-6 w-6" gradientId="mytvGradFloat" />
+            <LogoMark className="h-6 w-6" />
           </a>
 
           <button

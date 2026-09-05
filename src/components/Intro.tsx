@@ -79,7 +79,7 @@ export const Intro: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
             >
-              <LogoMark className="h-12 w-12" gradientId="mytvGradIntro" />
+              <LogoMark className="h-12 w-12" />
             </motion.div>
 
             <motion.div
