@@ -28,18 +28,27 @@ export const LogoMark: React.FC<{ className?: string }> = ({ className = 'h-6 w-
  */
 export const Logo: React.FC<{ className?: string }> = ({ className = 'h-8 sm:h-9' }) => (
   <a href="#top"
-    className={`flex shrink-0 items-center gap-2 no-underline ${className}`}
+    className={`flex shrink-0 items-center gap-2.5 no-underline ${className}`}
     aria-label={`${BRAND.full} — Startseite`}
   >
+    {/* Markenplatte. Zwei Verlaufsebenen, wie die Glass-Buttons der Seite:
+        unten ein diagonaler Zug vom markengetoenten Dunkel nach Ink, darueber
+        ein schmaler Lichtsaum. Ein flaches Schwarz sah aus wie ein
+        Platzhalter-App-Icon. Identisch aufgebaut wie die erzeugten Favicons,
+        damit Tab-Icon und Kopfzeile dieselbe Marke zeigen.
+
+        Prozentgroesse statt h-full fuer die Marke: der Chip leitet seine
+        Breite ueber `aspect-square` aus der Hoehe ab, ein h-full-Kind darin
+        haette keine aufloesbare Bezugshoehe und schrumpfte auf wenige Pixel. */}
     <span
-      className="flex h-full aspect-square shrink-0 items-center justify-center rounded-[0.65rem]"
-      style={{ background: 'var(--ink-solid)' }}
+      className="flex h-full aspect-square shrink-0 items-center justify-center rounded-[0.7rem] ring-1 ring-white/10 shadow-[0_6px_16px_-8px_rgba(var(--brand-b-deep-rgb),0.6)]"
+      style={{
+        background:
+          'linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 42%),' +
+          'linear-gradient(140deg, color-mix(in srgb, var(--color-orange) 30%, var(--ink-solid)) 0%, var(--ink-solid) 62%)',
+      }}
     >
-      {/* Prozentgroesse statt h-full: der Chip leitet seine Breite ueber
-          `aspect-square` aus der Hoehe ab, und ein h-full-Kind darin hat
-          keine aufloesbare Bezugshoehe — die Marke schrumpfte auf wenige
-          Pixel. 68% laesst ringsum den Rand stehen, den der Chip braucht. */}
-      <LogoMark className="h-[68%] w-[68%]" />
+      <LogoMark className="h-[70%] w-[70%]" />
     </span>
     <span className="flex items-baseline leading-none">
       <span className="text-[17px] font-extrabold tracking-tight text-ink sm:text-[19px]">
