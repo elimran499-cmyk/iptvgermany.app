@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <!-- Google tag (gtag.js).
+         ACHTUNG: Conversion-ID und Labels stammen noch vom Ursprungsprojekt.
+         Vor dem Live-Gang durch die eigene AW-ID dieser Seite ersetzen —
+         hier und in src/conversions.ts —, sonst laufen die Conversions in
+         das falsche Google-Ads-Konto.
+
+         Der Stub läuft inline und sofort: er definiert gtag() und stellt jeden
+         Aufruf in dataLayer, damit Conversions, die vor dem Eintreffen des
+         Remote-Tags feuern, erhalten bleiben und nachgespielt werden. So darf
+         das 100 KB große gtag.js warten — als allererstes Element im <head>
+         würde der Preload-Scanner es vor Fonts und App-Bundle laden und die
+         ersten Roundtrips des Besuchs an ein Skript verschenken, das nichts
+         zeichnet. Es wird geladen, was zuerst eintritt: window load oder das
+         erste Anzeichen eines Nutzers, der konvertieren könnte. -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-18345460239');
+
+      (function () {
+        var loaded = false;
+        function loadGtag() {
+          if (loaded) return;
+          loaded = true;
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=AW-18345460239';
+          document.head.appendChild(s);
+        }
+        var events = ['pointerdown', 'keydown', 'touchstart', 'scroll'];
+        events.forEach(function (e) {
+          window.addEventListener(e, loadGtag, {once: true, passive: true, capture: true});
+        });
+        if (document.readyState === 'complete') loadGtag();
+        else window.addEventListener('load', loadGtag, {once: true});
+      })();
+    </script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Kopfbegriff dieser Seite: „IPTV Germany". Er steht im Title voran,
+         in der Description, in der H1 (src/data/iptvData.ts → SEO.h1Before),
+         in sechs Abschnittsüberschriften und in der ersten FAQ-Frage. -->
+    <title>IPTV Germany – IPTV Abo Deutschland kaufen | IPTVGermany</title>
+    <meta name="description" content="IPTV Germany: IPTV-Abo für ganz Deutschland mit 80.000+ Sendern und 200.000+ Filmen &amp; Serien in HD/4K. Aktivierung in 5–15 Min., Support per WhatsApp." />
+    <link rel="canonical" href="https://iptvgermany.app/" />
+
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/logo-mark.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#FFFFFF" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="IPTVGermany" />
+    <meta property="og:locale" content="de_DE" />
+    <meta property="og:url" content="https://iptvgermany.app/" />
+    <meta property="og:title" content="IPTV Germany – IPTV Abo Deutschland kaufen | IPTVGermany" />
+    <meta property="og:description" content="IPTV Germany: IPTV-Abo für ganz Deutschland mit 80.000+ Sendern und 200.000+ Filmen &amp; Serien in HD/4K. Aktivierung in 5–15 Min., Support per WhatsApp." />
+    <meta property="og:image" content="https://iptvgermany.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="IPTV Germany — IPTVGermany" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://iptvgermany.app/og-image.png" />
+    <meta name="twitter:title" content="IPTV Germany – IPTV Abo Deutschland kaufen | IPTVGermany" />
+    <meta name="twitter:description" content="IPTV Germany: IPTV-Abo für ganz Deutschland mit 80.000+ Sendern und 200.000+ Filmen &amp; Serien in HD/4K. Aktivierung in 5–15 Min., Support per WhatsApp." />
+
+    <!-- Die FAQ-Einträge hier müssen wortgleich mit FAQ_ITEMS in
+         src/data/iptvData.ts bleiben — Schema ohne Entsprechung auf der
+         Seite ist ein Verstoß gegen Googles Richtlinien. -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "name": "IPTVGermany",
+      "alternateName": "IPTV Germany",
+      "url": "https://iptvgermany.app",
+      "logo": "https://iptvgermany.app/logo.png",
+      "image": "https://iptvgermany.app/og-image.png",
+      "description": "IPTV Germany: IPTV-Abo für ganz Deutschland mit 80.000+ Sendern und 200.000+ Filmen & Serien in HD/4K. Aktivierung in 5–15 Min., Support per WhatsApp."
+    },
+    {
+      "@type": "WebSite",
+      "name": "IPTVGermany",
+      "url": "https://iptvgermany.app",
+      "inLanguage": "de"
+    },
+    {
+      "@type": "Product",
+      "name": "IPTV Germany — IPTV Abo",
+      "description": "IPTV Germany: IPTV-Abo für ganz Deutschland mit 80.000+ Sendern und 200.000+ Filmen & Serien in HD/4K. Aktivierung in 5–15 Min., Support per WhatsApp.",
+      "brand": {
+        "@type": "Brand",
+        "name": "IPTVGermany"
+      },
+      "category": "IPTV",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "EUR",
+        "lowPrice": "24.99",
+        "highPrice": "199.99",
+        "offerCount": "24",
+        "availability": "https://schema.org/InStock",
+        "url": "https://iptvgermany.app/#pricing"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Was ist IPTV Germany und wo funktioniert es?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "IPTV Germany ist unser IPTV-Abo für den deutschsprachigen Raum. Es funktioniert überall dort, wo du eine stabile Internetverbindung von mindestens 25 Mbit/s hast — zu Hause in Deutschland ebenso wie im Urlaub. Du brauchst nur ein kompatibles Gerät und die Zugangsdaten, die du nach der Bestellung über WhatsApp bekommst."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Wie lange dauert die Aktivierung meines IPTV-Abos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nach erfolgreicher Zahlung wird dein IPTV-Abo in der Regel innerhalb von 5 bis 15 Minuten aktiviert. Die Zugangsdaten erhältst du per E-Mail oder über WhatsApp und kannst sofort loslegen."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Welche Geräte sind mit eurem IPTV Deutschland kompatibel?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Unser Dienst läuft auf Samsung und LG Smart TV, Android und Google TV, Fire TV und Fire Stick, Apple TV, iOS- und Android-Smartphones und -Tablets, MAG-Boxen sowie PC/Mac. Wir unterstützen sowohl M3U als auch Xtream Codes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Wie installiere ich das beste IPTV auf meinem TV oder Handy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Du installierst eine kompatible App wie IPTV Smarters, TiVimate, IBO Player oder Smart IPTV und trägst deine Zugangsdaten ein. Zur Bestellung bekommst du verständliche deutsche Anleitungen, und unser Support hilft dir über WhatsApp, bis alles läuft."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kann ich schnell starten, wenn ich mich gar nicht auskenne?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ja. Technisches Vorwissen brauchst du nicht. Wir begleiten dich Schritt für Schritt über WhatsApp durch die Installation, und die meisten Kunden schauen innerhalb einer Viertelstunde. Unser deutschsprachiger Support ist 7 Tage die Woche erreichbar."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Wie steht es um Qualität und Stabilität eures Premium-IPTV?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Wir streamen in SD, HD, Full HD, 4K und UHD über Anti-Buffer-EU-Server mit 99,99 % Stabilität. Die tatsächliche Bildqualität hängt von deiner Internetgeschwindigkeit und deinem Gerät ab; für 4K empfehlen wir mindestens 25 Mbit/s."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Welche Zahlungsarten und Verlängerungsoptionen gibt es?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Du kannst sicher per Visa, Mastercard, American Express, PayPal, SEPA-Überweisung, Apple Pay und Google Pay zahlen. Es gibt keine automatische Verlängerung: Du verlängerst selbst, wann du willst, und hast 7 Tage Geld-zurück-Garantie."
+          }
+        }
+      ]
+    }
+  ]
+}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

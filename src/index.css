@@ -1,0 +1,630 @@
+@import "tailwindcss";
+
+/* Self-hosted so the site renders correctly offline. Variable font, 200–800.
+   Bricolage Grotesque is SIL Open Font License 1.1. */
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal;
+  font-weight: 200 800;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("./assets/fonts/bricolage-grotesque-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal;
+  font-weight: 200 800;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("./assets/fonts/bricolage-grotesque-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@theme {
+  /* IPTVGERMANY — PETROL → SMARAGD — ruhig und wertig. Weißer Grund, redaktionelle
+     Haarlinien, Petrol → Smaragd als einziger gesättigter Zug: Verlaufstext, das
+     VIP-Preisband und die Schatten der Glass-Buttons. Farbe ist Akzent,
+     niemals Fläche.
+
+     Die Token-Namen (--color-orange / --color-magenta) sind Slots, keine
+     Hue-Angaben: sie erzeugen die Tailwind-Klassen text-orange-deep,
+     bg-orange/10, border-orange/40 … und behalten deshalb ihren Namen,
+     auch wenn hier Blau oder Grün drinsteht. Nur die Werte wechseln. */
+  --color-page: #ffffff;
+  --color-tint: #f0faf8;
+  --color-surface: #ffffff;
+  --color-surface-2: #f6fcfa;
+  --color-hairline: #d5eae5;
+
+  --color-orange: #0e7c86;
+  --color-orange-deep: #075961;
+  --color-magenta: #10b981;
+  --color-magenta-deep: #0a7d57;
+
+  --color-ink: #12262a;
+  --color-muted: #4c6266;
+  --color-success: #16a97a;
+  /* WhatsApp-Grün bleibt in jeder Palette unverändert — die Farbe ist Teil
+     der Wiedererkennung des Kanals, nicht Teil dieser Marke. */
+  --color-wa: #25d366;
+
+  --font-sans: "Bricolage Grotesque", -apple-system, system-ui, "Segoe UI",
+    Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* ── Marken-Palette ────────────────────────────────────────────────────────
+   Jede Markenfarbe dieser Seite steht hier und nur hier. Die @theme-Tokens
+   oben liefern die Utility-Klassen; die *-rgb-Tripel unten füttern jedes
+   rgba() im Projekt, damit ein Farbwechsel genau eine Stelle betrifft statt
+   sechzig verstreuter Hex-Werte.
+   Reihenfolge egal: Custom Properties lösen erst bei der Nutzung auf. */
+:root {
+  --brand-a-rgb: 14, 124, 134;
+  --brand-b-rgb: 16, 185, 129;
+  --brand-a-deep-rgb: 7, 89, 97;
+  --brand-b-deep-rgb: 10, 125, 87;
+  --brand-a-light: #5fd2cf;
+  /* Dunkle Platte hinter den Senderlogos + Intro-Karte. */
+  --ink-solid: #12262a;
+  --ink-rgb: 18, 38, 42;
+  --ink-plate-border: #254246;
+  /* Haarlinie zwischen den Feature-Zeilen der Preiskarten. */
+  --divider: #cee5df;
+  /* Zweite Tint-Stufe, nur im Hover der Glass-Buttons. */
+  --tint-2: #e4f6f1;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-page);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: 450;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer utilities {
+  /* Eyebrow label: generous letter-spacing, small uppercase caps. */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-orange-deep);
+  }
+
+  /* Gradient text — headline words only, sparingly. */
+  .text-gradient {
+    background-image: linear-gradient(135deg, var(--color-orange) 0%, var(--color-magenta) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Hairline card: the page's structural language, now on white. */
+  .card-hairline {
+    border: 1px solid var(--color-hairline);
+    background: var(--color-surface);
+  }
+
+  .card-lift {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .card-lift:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--color-orange) 40%, var(--color-hairline));
+    box-shadow: 0 20px 44px -22px rgba(var(--brand-a-deep-rgb), 0.28);
+  }
+
+  /* Pricing cards — a real, weighty hover: the whole card lifts with a
+     deeper shadow, and hairline-bordered (non-best) cards warm their border
+     colour too. Transform/box-shadow/border-color only. */
+  .price-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .price-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 28px 52px -26px rgba(var(--brand-a-deep-rgb), 0.32);
+  }
+  .price-card.card-hairline:hover {
+    border-color: color-mix(in srgb, var(--color-orange) 42%, var(--color-hairline));
+  }
+  /* Feature rows — a subtle row hover inside each pricing card. */
+  .feature-row {
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .feature-row:hover {
+    background-color: color-mix(in srgb, var(--color-orange) 6%, transparent);
+    color: var(--color-ink);
+  }
+
+  .shadow-soft {
+    box-shadow: 0 10px 30px -18px rgba(var(--ink-rgb), 0.16);
+  }
+  .shadow-card {
+    box-shadow: 0 16px 40px -20px rgba(var(--ink-rgb), 0.22);
+  }
+
+  /* 1px gradient hairline dropped between sections instead of a hard edge —
+     now that each section is its own page, this replaces the seam that used
+     to sit between two <section>s on one long scroller. */
+  .divider-gradient {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(var(--brand-a-rgb), 0.35),
+      rgba(var(--brand-b-rgb), 0.35),
+      transparent
+    );
+  }
+
+  /* Warm vertical wash, used at a handful of section edges. */
+  .warm-wash-top {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 10rem;
+    background: linear-gradient(to bottom, rgba(var(--brand-a-rgb), 0.08), transparent);
+    pointer-events: none;
+  }
+  .warm-wash-bottom {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 10rem;
+    background: linear-gradient(to top, rgba(var(--brand-b-rgb), 0.06), transparent);
+    pointer-events: none;
+  }
+
+  /* Soft blurred colour blobs — the glow behind the hero and pricing section
+     that gives glass something to blur. Cheap: opacity/transform only ever
+     animate on these, never their blur radius. */
+  .blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(64px);
+    pointer-events: none;
+  }
+  .blob-orange {
+    background: radial-gradient(closest-side, rgba(var(--brand-a-rgb), 0.38), transparent);
+  }
+  .blob-magenta {
+    background: radial-gradient(closest-side, rgba(var(--brand-b-rgb), 0.32), transparent);
+  }
+
+  /* ---- Glass button system -------------------------------------------- */
+  /* True gradient hairline border: a transparent 1px border painted by a
+     second background layer clipped to the border box, under the fill layer
+     clipped to the padding box — brighter top-left, fading to a deeper brand
+     tint bottom-right. Cheaper and truer than tinting each border side. */
+  .glass-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid transparent;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 14px 28px -16px rgba(var(--brand-a-deep-rgb), 0.35);
+    /* Performance: transition only transform/opacity/background/border-color —
+       box-shadow changes on hover apply instantly rather than animating, so
+       nothing here forces a paint of the (already modest) blur every frame. */
+    transition: transform 0.2s ease, background-color 0.2s ease, background 0.2s ease,
+      border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .glass-btn:active {
+    transform: translateY(0) scale(0.99);
+  }
+
+  .glass-btn-primary {
+    color: #ffffff;
+    background-image: linear-gradient(135deg, var(--color-orange) 0%, var(--color-magenta) 100%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.15) 45%, rgba(var(--brand-b-deep-rgb), 0.45) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 16px 32px -14px rgba(var(--brand-b-deep-rgb), 0.5);
+  }
+  /* Soft specular sheen across the upper third — a static highlight, not an
+     animated one, so it costs nothing per frame. */
+  .glass-btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 62% 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
+    pointer-events: none;
+  }
+  .glass-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 20px 40px -14px rgba(var(--brand-b-deep-rgb), 0.58);
+  }
+
+  .glass-btn-secondary {
+    color: var(--color-ink);
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.86) 0%, color-mix(in srgb, var(--color-tint) 72%, transparent) 100%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(var(--brand-a-rgb), 0.4) 45%, rgba(var(--brand-b-deep-rgb), 0.28) 100%);
+  }
+  .glass-btn-secondary:hover {
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, var(--tint-2) 100%),
+      linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(var(--brand-a-rgb), 0.55) 45%, rgba(var(--brand-b-deep-rgb), 0.35) 100%);
+    transform: translateY(-2px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 18px 34px -16px rgba(var(--brand-a-deep-rgb), 0.28);
+  }
+
+  .glass-btn-ghost {
+    color: var(--color-ink);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(var(--brand-a-rgb), 0.3) 55%, var(--color-hairline) 100%);
+    box-shadow: none;
+  }
+  .glass-btn-ghost:hover {
+    color: var(--color-orange-deep);
+    background-image: linear-gradient(rgba(var(--brand-a-rgb), 0.07), rgba(var(--brand-a-rgb), 0.07)),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, var(--color-orange) 100%);
+  }
+
+  .glass-btn:focus-visible {
+    outline: 2px solid var(--color-orange-deep);
+    outline-offset: 2px;
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass-btn {
+      border-color: var(--color-hairline);
+    }
+    .glass-btn-primary {
+      background-image: none;
+      background: linear-gradient(135deg, var(--color-orange) 0%, var(--color-magenta) 100%);
+      border-color: transparent;
+    }
+    .glass-btn-secondary {
+      background-image: none;
+      background: var(--color-tint);
+    }
+    .glass-btn-ghost {
+      background-image: none;
+      background: #ffffff;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-btn,
+  .card-lift,
+  .price-card,
+  .feature-row {
+    transition: none !important;
+  }
+  .glass-btn:hover,
+  .glass-btn:active,
+  .card-lift:hover,
+  .price-card:hover {
+    transform: none !important;
+  }
+}
+
+/* Hero channel-drift panel — 2–3 vertical columns of logos looping upward
+   (one reversed) inside a masked frame. Track height is the column's list
+   doubled, so translateY(-50%) lands exactly on the duplicate. */
+@keyframes drift-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+@keyframes drift-down {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.channel-col-track {
+  animation: drift-up linear infinite;
+}
+.channel-col-track-reverse {
+  animation-name: drift-down;
+}
+.channel-panel:hover .channel-col-track,
+.channel-panel:focus-within .channel-col-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .channel-col-track {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fadeIn {
+    animation-duration: 0.01ms !important;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-tint);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-hairline);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-orange);
+}
+
+/* Horizontal rails — snap points, no visible scrollbar. Reused by the
+   Channels marquee's reduced-motion fallback and any poster rail. */
+.rail-snap {
+  scroll-snap-type: x proximity;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.rail-snap::-webkit-scrollbar {
+  display: none;
+}
+.rail-snap > * {
+  scroll-snap-align: start;
+}
+
+/* ---- Channel marquee — two rows, opposite directions ------------------- */
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes marquee-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.marquee-track {
+  animation: marquee-left 38s linear infinite;
+}
+.marquee-track-reverse {
+  animation-name: marquee-right;
+}
+.marquee-row:hover .marquee-track,
+.marquee-row:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+  }
+}
+
+/* ---- Hero channel-drift panel mask -------------------------------------- */
+/* The "Live nu" card floats over the bottom of the drift panel. On phone the
+   panel is short (210px) and the card takes up a much bigger share of its
+   height than it does at the 300px+ desktop size, so the same 14%/86% fade
+   used there left tiles fully opaque behind the card — reading as a tile cut
+   in half. Widen the fade zone on phone so the tiles dissolve into the panel
+   background well before the card starts, and tighten it back up from `sm`
+   where the card is a small fraction of a taller panel. */
+.channel-mask {
+  --mask-in: 16%;
+  /* Auf dem Telefon sitzt die „Jetzt live"-Karte bei rund 68% der Panelhöhe.
+     Die Ausblendung muss davor abgeschlossen sein, sonst steht eine voll
+     deckende Kachel unter der Karte und wirkt mittendurch geschnitten. */
+  --mask-out-start: 48%;
+  --mask-out-end: 78%;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black var(--mask-in),
+    black var(--mask-out-start),
+    transparent var(--mask-out-end)
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black var(--mask-in),
+    black var(--mask-out-start),
+    transparent var(--mask-out-end)
+  );
+}
+@media (min-width: 640px) {
+  .channel-mask {
+    --mask-in: 14%;
+    --mask-out-start: 86%;
+    --mask-out-end: 100%;
+  }
+}
+
+/* ---- Editorial reading measure ----------------------------------------- */
+/* A single narrow column for running copy — ~64ch, the width a magazine
+   column actually sets at. Used by the relocated hero intro, pull-quotes and
+   any long-form paragraph outside the pricing/feature grids. */
+.measure {
+  max-width: 64ch;
+}
+
+/* ---- Drop cap ------------------------------------------------------------
+   Opens the first body passage the way a printed feature would — one raised
+   initial, set in the brand gradient, floated so the following lines wrap
+   around its shoulder. Used exactly once (the hero standfirst): a page-wide
+   motif would just be decoration repeating itself. */
+.drop-cap {
+  float: left;
+  font-weight: 800;
+  font-size: 3.4em;
+  line-height: 0.82;
+  padding-top: 0.04em;
+  padding-right: 0.09em;
+  padding-bottom: 0.02em;
+  background-image: linear-gradient(135deg, var(--color-orange) 0%, var(--color-magenta) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---- Pricing: VIP showpiece motion -------------------------------------- */
+/* Specular sweep — a band of light drifting across the gradient header,
+   "low sunlight moving across glass". Transform + opacity only, so it is
+   cheap to loop; always mounted, toggled by an opacity/play-state pair set
+   from React so the underlying price counter never remounts on tier change. */
+@keyframes specular-sweep {
+  0% {
+    transform: translateX(-45%) skewX(-14deg);
+  }
+  100% {
+    transform: translateX(220%) skewX(-14deg);
+  }
+}
+.specular-sweep {
+  position: absolute;
+  inset: -20% -10%;
+  width: 34%;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.5) 45%,
+    rgba(255, 255, 255, 0.12) 58%,
+    transparent 80%
+  );
+  animation: specular-sweep 5.5s ease-in-out infinite;
+  animation-play-state: paused;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+.specular-sweep.is-active {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+/* Animated gradient rim — a slowly rotating conic gradient behind the card,
+   revealed only as a thin ring by the 2px inset of the card itself sitting
+   above it. Rotation is a transform, so it is loop-safe. */
+@keyframes rim-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.gradient-rim {
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+.gradient-rim.is-active {
+  opacity: 1;
+}
+.gradient-rim::before {
+  content: '';
+  position: absolute;
+  inset: -60%;
+  background: conic-gradient(from 0deg, var(--brand-a-light), var(--color-orange), var(--color-magenta), var(--color-magenta-deep), var(--color-orange), var(--brand-a-light));
+  animation: rim-spin 7s linear infinite;
+  animation-play-state: paused;
+}
+.gradient-rim.is-active::before {
+  animation-play-state: running;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .specular-sweep,
+  .gradient-rim::before {
+    animation: none !important;
+  }
+  .specular-sweep.is-active {
+    opacity: 0 !important;
+  }
+}
+
+/* ---- Phone floating header — clear of the notch/home-indicator safe areas */
+.safe-top {
+  padding-top: max(0.75rem, env(safe-area-inset-top));
+}
+
+/* ---- Logo mark motion — transform/opacity only, cheap, restrained -------- */
+@keyframes logo-twinkle {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.1);
+  }
+}
+.logo-mark-spark {
+  animation: logo-twinkle 3.6s ease-in-out infinite;
+  transform-origin: center;
+}
+.logo-mark {
+  transition: transform 0.35s ease;
+  transform-origin: center;
+}
+a:hover .logo-mark,
+a:focus-visible .logo-mark,
+button:hover .logo-mark {
+  transform: scale(1.08) rotate(-3deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-mark-spark {
+    animation: none !important;
+  }
+  .logo-mark {
+    transition: none !important;
+  }
+  a:hover .logo-mark,
+  a:focus-visible .logo-mark,
+  button:hover .logo-mark {
+    transform: none !important;
+  }
+}

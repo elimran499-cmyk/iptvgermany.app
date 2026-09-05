@@ -1,0 +1,6 @@
+{
+  "name": "IPTV Koning",
+  "description": "Het beste IPTV abonnement in Nederland & België. 20.000+ zenders, 4K/FHD streaming, 99.9% uptime en 24/7 ondersteuning.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
