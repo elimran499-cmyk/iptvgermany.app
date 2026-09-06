@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Menu, Sparkles, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { BRAND, CONTACT, NAV_LINKS } from '../data/iptvData';
 import { GlassButton, Logo, WhatsAppGlyph } from './ui';
 
@@ -145,18 +145,12 @@ export const Navbar: React.FC = () => {
         />
 
         <div className="relative flex h-12 items-center justify-between">
-          {scrolled ? (
-            <a
-              href="#pricing"
-              className="animate-fadeIn flex h-11 items-center gap-1.5 whitespace-nowrap rounded-full pl-3.5 pr-4 text-[13px] font-bold text-white no-underline shadow-[0_12px_26px_-12px_rgba(var(--brand-b-deep-rgb), 0.6)]"
-              style={{ background: 'linear-gradient(135deg,var(--color-orange),var(--color-magenta))' }}
-            >
-              <Sparkles className="h-4 w-4" aria-hidden="true" />
-              Paket wählen
-            </a>
-          ) : (
-            <Logo className="h-8" />
-          )}
+          {/* Oben die Wortmarke; gescrollt bleibt links frei, damit der Name
+              mittig wirklich mittig steht. Die Angebots-Pille sass hier
+              frueher — sie doppelte nur, was die feste Leiste am unteren
+              Rand ohnehin anbietet, und liess dem Namen bei 390px gerade
+              einen Pixel Luft. */}
+          {!scrolled && <Logo className="h-8" />}
 
           {/* Name der Seite mittig — absolut zentriert, damit die Breite der
               Pille links ihn nicht aus der Mitte schiebt. Nur im gescrollten
@@ -170,10 +164,13 @@ export const Navbar: React.FC = () => {
                 aria-label={`${BRAND.full} — Startseite`}
                 className="animate-fadeIn pointer-events-auto flex items-baseline whitespace-nowrap no-underline"
               >
-                <span className="text-[14.5px] font-extrabold tracking-tight text-ink">
+                <span className="text-[19px] font-extrabold tracking-tight text-ink">
                   {BRAND.mark1}
                 </span>
-                <span className="text-[14.5px] font-medium tracking-tight text-muted">
+                {/* Zweite Haelfte im Markenverlauf statt in Grau — in der
+                    Kopfzeile ist der Name die einzige Stelle, die die Marke
+                    traegt, seit die Bildmarke dort weg ist. */}
+                <span className="text-gradient text-[19px] font-extrabold tracking-tight">
                   {BRAND.mark2}
                 </span>
               </a>
