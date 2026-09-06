@@ -122,23 +122,20 @@ export const Navbar: React.FC = () => {
         )}
       </div>
 
-      {/* ── Phone: floating scrolled header — three independent elements,
-          not a bar. Fixed, so it never occupies layout space; invisible and
-          inert until the page has scrolled. ─────────────────────────────── */}
-      <div
-        aria-hidden={!scrolled}
-        /* The wrapper alone owns pointer-events; children must not set
-           `pointer-events-auto`, or they stay tappable while the bar is
-           invisible at the top of the page. */
-        className={`safe-top fixed inset-x-0 top-0 z-50 px-3 transition-all duration-300 sm:hidden ${
-          scrolled
-            ? 'pointer-events-auto translate-y-0 opacity-100'
-            : 'pointer-events-none -translate-y-3 opacity-0'
-        }`}
-      >
+      {/* ── Telefon-Kopfzeile — zwei Zustaende ────────────────────────────
+          Oben: Wortmarke links, Menue rechts, ohne eigenen Grund. Sie liegt
+          ueber dem Hero, also darf sie ihn nicht zudecken.
+          Gescrollt: Angebots-Pille links, Bildmarke mittig, Menue rechts —
+          drei frei stehende Elemente auf einem weichen Verlauf, damit
+          durchlaufender Inhalt nicht mit ihnen kollidiert.
+          `fixed`, belegt also nie Layoutplatz; der Hero haelt dafuer oben
+          entsprechend Abstand. ─────────────────────────────────────────── */}
+      <div className="safe-top fixed inset-x-0 top-0 z-50 px-3 sm:hidden">
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 -top-2 h-[4.5rem]"
+          className={`pointer-events-none absolute inset-x-0 -top-2 h-[4.5rem] transition-opacity duration-300 ${
+            scrolled ? 'opacity-100' : 'opacity-0'
+          }`}
           style={{
             background:
               'linear-gradient(to bottom, var(--color-page) 38%, rgba(var(--brand-a-rgb), 0) 100%)',
@@ -146,25 +143,32 @@ export const Navbar: React.FC = () => {
         />
 
         <div className="relative flex h-12 items-center justify-between">
-          <a
-            href="#pricing"
-            tabIndex={scrolled ? 0 : -1}
-            className="flex h-11 items-center gap-1.5 whitespace-nowrap rounded-full pl-3.5 pr-4 text-[13px] font-bold text-white no-underline shadow-[0_12px_26px_-12px_rgba(var(--brand-b-deep-rgb), 0.6)]"
-            style={{ background: 'linear-gradient(135deg,var(--color-orange),var(--color-magenta))' }}
-          >
-            <Sparkles className="h-4 w-4" aria-hidden="true" />
-            Paket wählen
-          </a>
+          {scrolled ? (
+            <a
+              href="#pricing"
+              className="animate-fadeIn flex h-11 items-center gap-1.5 whitespace-nowrap rounded-full pl-3.5 pr-4 text-[13px] font-bold text-white no-underline shadow-[0_12px_26px_-12px_rgba(var(--brand-b-deep-rgb), 0.6)]"
+              style={{ background: 'linear-gradient(135deg,var(--color-orange),var(--color-magenta))' }}
+            >
+              <Sparkles className="h-4 w-4" aria-hidden="true" />
+              Paket wählen
+            </a>
+          ) : (
+            <Logo className="h-8" />
+          )}
 
-          {/* Centre badge — absolutely centred on the viewport strip, so the
-              pill's width to the left can never nudge it off-centre. */}
-          <a href="#top"
-            aria-label={`${BRAND.full} — Startseite`}
-            tabIndex={scrolled ? 0 : -1}
-            className="absolute left-1/2 top-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl bg-[var(--ink-solid)] shadow-[0_12px_24px_-10px_rgba(var(--ink-rgb), 0.6)]"
-          >
-            <LogoMark className="h-6 w-6" />
-          </a>
+          {/* Bildmarke mittig — absolut zentriert, damit die Breite der Pille
+              links sie nicht aus der Mitte schiebt. Nur im gescrollten
+              Zustand: oben traegt die Wortmarke links bereits die Marke. */}
+          {scrolled && (
+            <a
+              href="#top"
+              aria-label={`${BRAND.full} — Startseite`}
+              className="animate-fadeIn absolute left-1/2 top-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl shadow-[0_12px_24px_-10px_rgba(var(--ink-rgb),0.6)]"
+              style={{ background: 'var(--ink-solid)' }}
+            >
+              <LogoMark className="h-6 w-6" />
+            </a>
+          )}
 
           <button
             type="button"
@@ -172,8 +176,9 @@ export const Navbar: React.FC = () => {
             aria-expanded={open}
             aria-controls="mobile-menu"
             onClick={() => setOpen(true)}
-            tabIndex={scrolled ? 0 : -1}
-            className="flex h-11 w-11 items-center justify-center rounded-2xl border border-hairline bg-white/95 text-ink shadow-soft backdrop-blur-md"
+            className={`flex h-11 w-11 items-center justify-center border border-hairline bg-white/95 text-ink shadow-soft backdrop-blur-md transition-[border-radius] duration-300 ${
+              scrolled ? 'rounded-2xl' : 'rounded-full'
+            }`}
           >
             <Menu className="h-5 w-5" />
           </button>

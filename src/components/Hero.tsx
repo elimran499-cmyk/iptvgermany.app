@@ -97,7 +97,7 @@ export const Hero: React.FC = () => {
         };
 
   return (
-    <section id="top" className="relative overflow-hidden bg-page pb-14 pt-8 sm:pb-20 sm:pt-16">
+    <section id="top" className="relative overflow-hidden bg-page pb-14 pt-[4.75rem] sm:pb-20 sm:pt-16">
       {/* Warm blurred blobs — the glow that gives the glass CTAs and channel
           panel something to blur against. Opacity/position only, never blur
           radius, so this stays cheap on a phone. */}
