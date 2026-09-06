@@ -1,5 +1,4 @@
 import React from 'react';
-import { Intro } from './components/Intro';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Channels } from './components/Channels';
@@ -21,7 +20,6 @@ import { MobileCtaBar } from './components/MobileCtaBar';
 export default function App() {
   return (
     <div className="min-h-screen overflow-x-hidden bg-page pb-[76px] font-sans text-ink sm:pb-0">
-      <Intro />
       <Navbar />
 
       <main>
