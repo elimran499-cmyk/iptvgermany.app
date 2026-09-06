@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
-import { motion, useReducedMotion } from 'motion/react';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 import { BRAND, CONTACT, SEO } from '../data/iptvData';
 import { ALL_CHANNELS, TOTAL_CHANNELS } from '../data/catalog';
 import { GlassButton, WhatsAppGlyph } from './ui';
@@ -87,14 +87,13 @@ const TRUST_CHIPS = ['Sichere Zahlung', 'WhatsApp-Support', SEO.keyword];
 export const Hero: React.FC = () => {
   const reduceMotion = !!useReducedMotion();
   const [readMore, setReadMore] = useState(false);
-  const rise = (delay: number) =>
-    reduceMotion
-      ? {}
-      : {
-          initial: { opacity: 0, y: 16 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] },
-        };
+  /* Gibt className + animation-delay zurueck; die Kurve steht in index.css.
+     Unter `prefers-reduced-motion` greift dort ohnehin `animation: none`,
+     die Klasse kann also bleiben. */
+  const rise = (delay: number) => ({
+    className: 'rise',
+    style: { animationDelay: `${Math.round(delay * 1000)}ms` },
+  });
 
   return (
     <section id="top" className="relative overflow-hidden bg-page pb-14 pt-[4.75rem] sm:pb-20 sm:pt-16">
@@ -112,41 +111,41 @@ export const Hero: React.FC = () => {
         <div className="text-left">
           {/* Kept off the phone fold entirely — one clear idea, no badge
               competing with the headline for attention there. */}
-          <motion.span
-            {...rise(0)}
-            className="eyebrow hidden rounded-full border border-hairline bg-surface/80 px-4 py-2 shadow-soft backdrop-blur-sm sm:inline-flex"
+          <span
+            className="rise eyebrow hidden rounded-full border border-hairline bg-surface/80 px-4 py-2 shadow-soft backdrop-blur-sm sm:inline-flex"
+            style={{ animationDelay: '0ms' }}
           >
             <span
               className="h-1.5 w-1.5 rounded-full"
               style={{ background: 'linear-gradient(135deg,var(--color-orange),var(--color-magenta))' }}
             />
             Exklusive Angebote heute — sofortige Aktivierung
-          </motion.span>
+          </span>
 
           {/* Editorial headline — oversized, tight tracking, left-set so it
               breaks ragged-right rather than centring like a UI heading. */}
-          <motion.h1
-            {...rise(0.08)}
-            className="mt-2 text-[clamp(2.75rem,11vw,5rem)] font-extrabold leading-[0.98] tracking-[-0.02em] text-ink sm:mt-6"
+          <h1
+            className="rise mt-2 text-[clamp(2.75rem,11vw,5rem)] font-extrabold leading-[0.98] tracking-[-0.02em] text-ink sm:mt-6"
+            style={{ animationDelay: '80ms' }}
           >
             {SEO.h1Before} <span className="text-gradient">{BRAND.full}</span>
-          </motion.h1>
+          </h1>
 
           {/* The one supporting line the fold gets — everything else moves
               to the measure block below the grid. */}
-          <motion.p
-            {...rise(0.16)}
-            className="mt-4 max-w-[46ch] text-[17px] font-semibold leading-snug text-orange-deep sm:mt-3 sm:text-[clamp(1.05rem,3vw,1.4rem)]"
+          <p
+            className="rise mt-4 max-w-[46ch] text-[17px] font-semibold leading-snug text-orange-deep sm:mt-3 sm:text-[clamp(1.05rem,3vw,1.4rem)]"
+            style={{ animationDelay: '160ms' }}
           >
             {SEO.tagline}
-          </motion.p>
+          </p>
 
           {/* One weighted pair, not two matching pills: the order CTA carries
               the row (flex-1, its own arrow), WhatsApp rides beside it as a
               compact circular affordance — a different shape language
               entirely, not a smaller copy of the same pill. Both clear the
               48px target; the circle is a true 60px tap area. */}
-          <motion.div {...rise(0.24)} className="mt-7 flex items-stretch gap-3 sm:mt-9 sm:max-w-[420px]">
+          <div className="rise mt-7 flex items-stretch gap-3 sm:mt-9 sm:max-w-[420px]" style={{ animationDelay: '240ms' }}>
             <GlassButton
               variant="primary"
               size="lg"
@@ -166,12 +165,12 @@ export const Hero: React.FC = () => {
             >
               <WhatsAppGlyph className="h-6 w-6" />
             </a>
-          </motion.div>
+          </div>
 
           {/* Trust row — three compact chips, one line, never a block. */}
-          <motion.div
-            {...rise(0.3)}
-            className="mt-6 flex flex-wrap items-center gap-1.5 sm:mt-8 sm:gap-2"
+          <div
+            className="rise mt-6 flex flex-wrap items-center gap-1.5 sm:mt-8 sm:gap-2"
+            style={{ animationDelay: '300ms' }}
           >
             {TRUST_CHIPS.map((chip) => (
               <span
@@ -181,7 +180,7 @@ export const Hero: React.FC = () => {
                 {chip}
               </span>
             ))}
-          </motion.div>
+          </div>
         </div>
 
         {/* Channel drift panel — 2–3 columns of logos scrolling upward at
@@ -190,10 +189,12 @@ export const Hero: React.FC = () => {
             video file. Sits below the headline/CTAs in source order on
             phone, and is kept short there by design. Distinct from the
             Channels section's horizontal rows further down the page. */}
-        <motion.div
-          {...rise(0.18)}
-          className="channel-panel relative mx-auto h-[210px] w-full max-w-[420px] overflow-hidden rounded-[1.75rem] border border-hairline shadow-card sm:h-[300px] sm:rounded-[2rem] lg:h-auto lg:aspect-[4/5]"
-          style={{ background: 'linear-gradient(180deg, var(--color-tint) 0%, #FFFFFF 60%)' }}
+        <div
+          className="rise channel-panel relative mx-auto h-[210px] w-full max-w-[420px] overflow-hidden rounded-[1.75rem] border border-hairline shadow-card sm:h-[300px] sm:rounded-[2rem] lg:h-auto lg:aspect-[4/5]"
+          style={{
+            animationDelay: '180ms',
+            background: 'linear-gradient(180deg, var(--color-tint) 0%, #FFFFFF 60%)',
+          }}
         >
           <ChannelDriftPanel reduceMotion={reduceMotion} />
 
@@ -211,7 +212,7 @@ export const Hero: React.FC = () => {
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-success" />
             </span>
           </div>
-        </motion.div>
+        </div>
       </div>
 
       {/* Relocated intro/SEO copy — kept, word for word, but out of the fold
@@ -224,7 +225,7 @@ export const Hero: React.FC = () => {
           "Lees meer" disclosure — a magazine standfirst, not the second
           thing a phone visitor has to read in full. From `sm` the full
           passage always shows, centred, as before. */}
-      <motion.div {...rise(0.1)} className="relative mx-auto mt-10 max-w-[1240px] px-5 sm:mt-20">
+      <div className="rise relative mx-auto mt-10 max-w-[1240px] px-5 sm:mt-20" style={{ animationDelay: '100ms' }}>
         <div className="measure mx-auto max-w-[38ch] border-t border-hairline pt-7 text-left sm:max-w-[64ch] sm:pt-10 sm:text-center">
           <p className="text-[15px] leading-7 text-muted sm:text-lg sm:leading-8">
             <span className="drop-cap" aria-hidden="true">E</span>
@@ -254,7 +255,7 @@ export const Hero: React.FC = () => {
             />
           </button>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

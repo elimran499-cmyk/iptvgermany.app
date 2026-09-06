@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Menu, Sparkles, X } from 'lucide-react';
-import { motion, useReducedMotion } from 'motion/react';
 import { BRAND, CONTACT, NAV_LINKS } from '../data/iptvData';
-import { GlassButton, Logo, LogoMark, WhatsAppGlyph } from './ui';
+import { GlassButton, Logo, WhatsAppGlyph } from './ui';
 
 /**
  * Desktop/tablet (`sm:` and up) keeps one conventional sticky bar throughout.
@@ -18,7 +17,6 @@ import { GlassButton, Logo, LogoMark, WhatsAppGlyph } from './ui';
 export const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const reduceMotion = !!useReducedMotion();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -107,7 +105,7 @@ export const Navbar: React.FC = () => {
             id="mobile-menu-desktop"
             className="animate-fadeIn border-t border-hairline bg-page/95 px-5 pb-6 backdrop-blur-xl xl:hidden"
           >
-            <MenuLinks onNavigate={() => setOpen(false)} reduceMotion={reduceMotion} />
+            <MenuLinks onNavigate={() => setOpen(false)} />
             <GlassButton
               variant="primary"
               size="lg"
@@ -133,12 +131,16 @@ export const Navbar: React.FC = () => {
       <div className="safe-top fixed inset-x-0 top-0 z-50 px-3 sm:hidden">
         <span
           aria-hidden="true"
-          className={`pointer-events-none absolute inset-x-0 -top-2 h-[4.5rem] transition-opacity duration-300 ${
+          className={`pointer-events-none absolute inset-x-0 -top-3 h-[5.5rem] transition-opacity duration-300 ${
             scrolled ? 'opacity-100' : 'opacity-0'
           }`}
           style={{
+            /* Deckend ueber die gesamte Kopfzeilenhoehe, erst darunter
+               ausblenden — mit der frueheren, kuerzeren Verlaufsfahne stand
+               der Fliesstext noch sichtbar hinter Pille und Namen. */
             background:
-              'linear-gradient(to bottom, var(--color-page) 38%, rgba(var(--brand-a-rgb), 0) 100%)',
+              'linear-gradient(to bottom, var(--color-page) 0%, var(--color-page) 62%,' +
+              ' rgba(var(--brand-a-rgb), 0) 100%)',
           }}
         />
 
@@ -156,18 +158,26 @@ export const Navbar: React.FC = () => {
             <Logo className="h-8" />
           )}
 
-          {/* Bildmarke mittig — absolut zentriert, damit die Breite der Pille
-              links sie nicht aus der Mitte schiebt. Nur im gescrollten
-              Zustand: oben traegt die Wortmarke links bereits die Marke. */}
+          {/* Name der Seite mittig — absolut zentriert, damit die Breite der
+              Pille links ihn nicht aus der Mitte schiebt. Nur im gescrollten
+              Zustand: oben steht die Wortmarke ohnehin links.
+              `pointer-events-none` auf dem Wrapper, damit der unsichtbare
+              Rand des zentrierten Blocks die Pille daneben nicht abfaengt. */}
           {scrolled && (
-            <a
-              href="#top"
-              aria-label={`${BRAND.full} — Startseite`}
-              className="animate-fadeIn absolute left-1/2 top-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl shadow-[0_12px_24px_-10px_rgba(var(--ink-rgb),0.6)]"
-              style={{ background: 'var(--ink-solid)' }}
-            >
-              <LogoMark className="h-6 w-6" />
-            </a>
+            <span className="pointer-events-none absolute inset-x-0 top-1/2 flex -translate-y-1/2 justify-center">
+              <a
+                href="#top"
+                aria-label={`${BRAND.full} — Startseite`}
+                className="animate-fadeIn pointer-events-auto flex items-baseline whitespace-nowrap no-underline"
+              >
+                <span className="text-[14.5px] font-extrabold tracking-tight text-ink">
+                  {BRAND.mark1}
+                </span>
+                <span className="text-[14.5px] font-medium tracking-tight text-muted">
+                  {BRAND.mark2}
+                </span>
+              </a>
+            </span>
           )}
 
           <button
@@ -213,7 +223,7 @@ export const Navbar: React.FC = () => {
               </button>
             </div>
 
-            <MenuLinks onNavigate={() => setOpen(false)} reduceMotion={reduceMotion} />
+            <MenuLinks onNavigate={() => setOpen(false)} />
 
             <GlassButton
               variant="primary"
@@ -241,24 +251,20 @@ export const Navbar: React.FC = () => {
   );
 };
 
-const MenuLinks: React.FC<{ onNavigate: () => void; reduceMotion: boolean }> = ({
-  onNavigate,
-  reduceMotion,
-}) => (
+/* Die Eintraege laufen gestaffelt herein — als CSS-Keyframe (.slide-in in
+   index.css) statt ueber die Animationsbibliothek, die dafuer sonst im
+   kritischen Pfad haengen wuerde. `prefers-reduced-motion` schaltet sie
+   dort ab. */
+const MenuLinks: React.FC<{ onNavigate: () => void }> = ({ onNavigate }) => (
   <ul className="flex flex-col">
     {NAV_LINKS.map((link, i) => (
-      <motion.li
-        key={link.label}
-        initial={reduceMotion ? undefined : { opacity: 0, x: -10 }}
-        animate={reduceMotion ? undefined : { opacity: 1, x: 0 }}
-        transition={{ duration: 0.3, delay: i * 0.045, ease: 'easeOut' }}
-      >
+      <li key={link.label} className="slide-in" style={{ animationDelay: `${i * 45}ms` }}>
         <a href="#pricing" onClick={onNavigate}
           className="flex min-h-[44px] items-center border-b border-hairline py-3 text-[17px] font-bold text-ink no-underline transition-colors hover:text-orange-deep"
         >
           {link.label}
         </a>
-      </motion.li>
+      </li>
     ))}
   </ul>
 );

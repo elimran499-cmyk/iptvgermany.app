@@ -1,5 +1,5 @@
 import React from 'react';
-import { useReducedMotion } from 'motion/react';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 import { TOTAL_VOD, VOD_TITLES } from '../data/catalog';
 import { SectionHeading } from './ui';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useReducedMotion } from 'motion/react';
+import { useReducedMotion } from '../hooks/useReducedMotion';
 import { Channel, CHANNELS_DOCS, CHANNELS_FAMILY_SPORT, TOTAL_CHANNELS } from '../data/catalog';
 import { SEO } from '../data/iptvData';
 import { SectionHeading } from './ui';
