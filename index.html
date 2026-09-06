@@ -205,7 +205,7 @@
       #splash {
         position: fixed; inset: 0; z-index: 2147483647;
         display: flex; flex-direction: column; align-items: center;
-        justify-content: center; gap: 1.25rem;
+        justify-content: center; gap: 1.5rem;
         background: #12262a;
         font-family: "Bricolage Grotesque", -apple-system, system-ui, "Segoe UI",
           Roboto, "Helvetica Neue", sans-serif;
@@ -213,16 +213,19 @@
         padding: env(safe-area-inset-top) 1.5rem env(safe-area-inset-bottom);
       }
       #splash .m {
-        width: 76px; height: 76px; object-fit: contain;
+        width: 80px; height: 80px; object-fit: contain;
         animation: sp-mark 700ms cubic-bezier(.22,1,.36,1) both;
       }
+      @media (min-width: 640px) { #splash .m { width: 96px; height: 96px; } }
       #splash .w { display: flex; align-items: baseline; }
       #splash .w span {
-        font-size: clamp(1.75rem, 8vw, 2.35rem); font-weight: 800;
+        font-size: 1.875rem; font-weight: 800;
         letter-spacing: -.02em; color: #fff;
         animation: sp-letter 420ms ease-out both;
       }
-      #splash .w span.b { color: #10b981; font-weight: 500; }
+      @media (min-width: 640px) { #splash .w span { font-size: 2.25rem; } }
+      /* Der Punkt am Ende ist die eine farbige Stelle — wie auf nexomir.app. */
+      #splash .w span.dot { color: #10b981; }
       #splash .r {
         display: block; height: 1px; width: 96px; transform-origin: left;
         background: linear-gradient(90deg, #0e7c86, #10b981);
@@ -233,7 +236,7 @@
         text-transform: uppercase; color: rgba(255,255,255,.5);
         animation: sp-letter 420ms ease-out both; text-align: center;
       }
-      #splash.out { animation: sp-out 420ms ease-out forwards; }
+      #splash.out { animation: sp-out 550ms ease-out forwards; }
       @keyframes sp-mark {
         from { opacity: 0; transform: scale(.82) rotate(-10deg); }
         60%  { opacity: 1; }
@@ -259,11 +262,11 @@
   </head>
   <body>
     <div id="splash" aria-hidden="true">
-      <img class="m" alt="" width="76" height="76"
+      <img class="m" alt="" width="80" height="80"
         src="data:image/png;base64,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" />
-      <div class="w"><span style="animation-delay:380ms">I</span><span style="animation-delay:425ms">P</span><span style="animation-delay:470ms">T</span><span style="animation-delay:515ms">V</span><span class="b" style="animation-delay:560ms">G</span><span class="b" style="animation-delay:605ms">e</span><span class="b" style="animation-delay:650ms">r</span><span class="b" style="animation-delay:695ms">m</span><span class="b" style="animation-delay:740ms">a</span><span class="b" style="animation-delay:785ms">n</span><span class="b" style="animation-delay:830ms">y</span></div>
-      <span class="r" style="animation-delay:935ms"></span>
-      <span class="t" style="animation-delay:1075ms">IPTV Germany</span>
+      <div class="w"><span style="animation-delay:380ms">I</span><span style="animation-delay:435ms">P</span><span style="animation-delay:490ms">T</span><span style="animation-delay:545ms">V</span><span style="animation-delay:600ms">G</span><span style="animation-delay:655ms">e</span><span style="animation-delay:710ms">r</span><span style="animation-delay:765ms">m</span><span style="animation-delay:820ms">a</span><span style="animation-delay:875ms">n</span><span style="animation-delay:930ms">y</span><span class="dot" style="animation-delay:985ms">.</span></div>
+      <span class="r" style="animation-delay:760ms"></span>
+      <span class="t" style="animation-delay:900ms">IPTV Germany</span>
     </div>
     <div id="root"></div>
     <script>
@@ -276,7 +279,7 @@
         var el = document.getElementById('splash');
         if (!el) return;
         var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        var MIN_MS = reduced ? 0 : 1400;
+        var MIN_MS = reduced ? 0 : 1600;
         var born = Date.now();
         var gone = false;
         function drop() {
@@ -287,7 +290,7 @@
             setTimeout(function () {
               el.parentNode && el.parentNode.removeChild(el);
               document.documentElement.classList.remove('splashing');
-            }, reduced ? 0 : 430);
+            }, reduced ? 0 : 560);
           }, Math.max(0, MIN_MS - (Date.now() - born)));
         }
         window.addEventListener('app-ready', drop, { once: true });
