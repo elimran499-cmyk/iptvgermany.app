@@ -60,7 +60,6 @@ export default function App() {
             `Ready` steht innerhalb derselben Grenze. */}
         <Suspense fallback={null}>
           <Pricing />
-          <Ready />
         </Suspense>
         <AppCompat />
         <Benefits />
@@ -76,6 +75,12 @@ export default function App() {
       <Footer />
       <FloatingWhatsApp />
       <MobileCtaBar />
+      {/* Ausserhalb der Suspense-Grenze: der Vorspann soll gehen, sobald der
+          eager geladene Teil steht. Frueher stand `Ready` beim Preisblock und
+          der Vorspann hing zusaetzlich an dessen Chunk — eine Rundreise, die
+          auf dem Telefon voll durchschlaegt, fuer einen Abschnitt weit
+          unterhalb des Falzes. */}
+      <Ready />
     </div>
   );
 }

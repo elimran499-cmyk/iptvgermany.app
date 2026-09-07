@@ -28,9 +28,15 @@ const SECONDS_PER_TILE = 7.5;
 /* Conservative tile-width-plus-gap estimate (desktop size), used only to size
  * the loop safely — not for actual layout. */
 const TILE_UNIT_PX = 192;
-/* One loop period must comfortably exceed the widest realistic viewport, or
- * the seam shows a gap of bare tint before the track catches up. */
-const MIN_PERIOD_PX = 2600;
+/* Eine Schleifenperiode muss die Viewportbreite deutlich uebersteigen, sonst
+ * klafft an der Naht kurz der blanke Untergrund. Fest 2600px war fuer den
+ * breitesten Desktop gedacht — auf einem 390px-Telefon liess das die doppelte
+ * Menge Kacheln im DOM entstehen, die dort niemand sieht und die iOS
+ * trotzdem layouten und komponieren muss. */
+const MIN_PERIOD_PX = Math.max(
+  1200,
+  (typeof window !== 'undefined' ? window.innerWidth : 1400) * 2,
+);
 
 /** How many times a strip's list must be repeated in the DOM so that half of
  * the rendered track (the distance `translateX(-50%)` actually travels)

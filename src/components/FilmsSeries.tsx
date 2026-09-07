@@ -41,9 +41,14 @@ const PosterTile: React.FC<{ title: (typeof VOD_TITLES)[number] }> = ({ title })
  * split in half rather than reused whole — each row duplicates only its own
  * half in the DOM, purely to loop seamlessly. Duration scales with row length
  * so the drift speed stays constant however long the list grows. */
+/* Auf dem Telefon scrollt niemand durch dreissig Poster je Reihe — sichtbar
+   sind zwei bis drei gleichzeitig. Die halbe Liste reicht dort und halbiert
+   die Bildelemente, die iOS beim Aufbau anfassen muss. */
+const IS_PHONE = typeof window !== 'undefined' && window.innerWidth < 640;
+const PER_ROW = IS_PHONE ? 8 : Math.ceil(VOD_TITLES.length / 2);
 const HALF = Math.ceil(VOD_TITLES.length / 2);
-const ROW_A = VOD_TITLES.slice(0, HALF);
-const ROW_B = VOD_TITLES.slice(HALF);
+const ROW_A = VOD_TITLES.slice(0, HALF).slice(0, PER_ROW);
+const ROW_B = VOD_TITLES.slice(HALF).slice(0, PER_ROW);
 const SECONDS_PER_TILE = 7.5;
 const DURATION_A = `${Math.round(ROW_A.length * SECONDS_PER_TILE)}s`;
 const DURATION_B = `${Math.round(ROW_B.length * SECONDS_PER_TILE * 1.13)}s`;

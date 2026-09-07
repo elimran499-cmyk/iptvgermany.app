@@ -11,7 +11,12 @@ import { GlassButton, WhatsAppGlyph } from './ui';
  *  duplicate and the drift reads as endless. The third column is dropped on
  *  phone (below `sm`) so the panel stays a modest strip and never dominates
  *  the fold. */
-const COLUMN_COUNT = 3;
+/* Auf dem Telefon zeigt das Panel nur zwei Spalten. Die dritte war bisher
+   trotzdem im DOM — rund 17 Bildelemente, die iOS layouten und komponieren
+   muss, ohne dass sie je zu sehen sind. Einmal beim Laden ermittelt; die App
+   rendert ausschliesslich im Browser, ein SSR-Abgleich existiert nicht. */
+const IS_PHONE = typeof window !== 'undefined' && window.innerWidth < 640;
+const COLUMN_COUNT = IS_PHONE ? 2 : 3;
 const CHANNEL_COLUMNS = Array.from({ length: COLUMN_COUNT }, (_, col) =>
   ALL_CHANNELS.filter((_, i) => i % COLUMN_COUNT === col),
 );
