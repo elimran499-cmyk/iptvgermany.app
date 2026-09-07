@@ -1,37 +1,51 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
+import { Channels } from './components/Channels';
+import { FilmsSeries } from './components/FilmsSeries';
+import { AppCompat } from './components/AppCompat';
+import { Benefits } from './components/Benefits';
+import { BuySteps } from './components/BuySteps';
+import { HowItWorks } from './components/HowItWorks';
+import { Comparison } from './components/Comparison';
+import { Football } from './components/Football';
+import { Reviews } from './components/Reviews';
+import { FAQ } from './components/FAQ';
+import { FinalCta } from './components/FinalCta';
+import { Footer } from './components/Footer';
+import { FloatingWhatsApp } from './components/FloatingWhatsApp';
+import { MobileCtaBar } from './components/MobileCtaBar';
 
 /*
- * Nur Kopfzeile und Hero liegen im ersten Bundle — mehr sieht beim Aufschlagen
- * niemand. Alles darunter kommt als eigener Chunk.
+ * Genau eine Aufteilung, und zwar diese: der Preisblock ist das einzige Stueck,
+ * das die Animationsbibliothek wirklich braucht (Schiebe-Pille, Preiszaehler).
+ * Als eigener Chunk bleiben deren 45 KB gzip aus dem kritischen Pfad.
  *
- * Das ist keine Verzoegerung auf Verdacht: die Chunks werden sofort
- * angefordert, weil die Komponenten direkt im Baum stehen. Der Browser darf
- * den Hero nur eben zeichnen, bevor sie da sind, statt erst das ganze
- * Programm zu parsen. Nebenbei faellt damit die Animationsbibliothek aus dem
- * kritischen Pfad: sie haengt nur noch am Preisblock (45 KB gzip), und der
- * steht ohnehin unterhalb des Falzes.
- *
- * Fuer Suchmaschinen aendert sich nichts Wesentliches: die Seite wird
- * ohnehin im Browser gerendert, und die Chunks laden unmittelbar mit — nicht
- * erst beim Scrollen.
+ * Alles andere laedt eager. Eine frühere Fassung hatte jeden Abschnitt einzeln
+ * verzoegert — 24 JS-Chunks, der letzte lokal erst nach 2,6 s. Auf dem Telefon
+ * sind das zwei Dutzend zusaetzliche Rundreisen, und mit `fallback={null}`
+ * stand unter dem Hero solange Leere, in die die Abschnitte einzeln
+ * hereinpoppten. Vier Anfragen und eine geschlossene Darstellung sind auf
+ * einem Mobilfunknetz klar besser als neun eingesparte Kilobyte.
  */
-const Channels = lazy(() => import('./components/Channels').then((m) => ({ default: m.Channels })));
-const FilmsSeries = lazy(() => import('./components/FilmsSeries').then((m) => ({ default: m.FilmsSeries })));
 const Pricing = lazy(() => import('./components/Pricing').then((m) => ({ default: m.Pricing })));
-const AppCompat = lazy(() => import('./components/AppCompat').then((m) => ({ default: m.AppCompat })));
-const Benefits = lazy(() => import('./components/Benefits').then((m) => ({ default: m.Benefits })));
-const BuySteps = lazy(() => import('./components/BuySteps').then((m) => ({ default: m.BuySteps })));
-const HowItWorks = lazy(() => import('./components/HowItWorks').then((m) => ({ default: m.HowItWorks })));
-const Comparison = lazy(() => import('./components/Comparison').then((m) => ({ default: m.Comparison })));
-const Football = lazy(() => import('./components/Football').then((m) => ({ default: m.Football })));
-const Reviews = lazy(() => import('./components/Reviews').then((m) => ({ default: m.Reviews })));
-const FAQ = lazy(() => import('./components/FAQ').then((m) => ({ default: m.FAQ })));
-const FinalCta = lazy(() => import('./components/FinalCta').then((m) => ({ default: m.FinalCta })));
-const Footer = lazy(() => import('./components/Footer').then((m) => ({ default: m.Footer })));
-const FloatingWhatsApp = lazy(() => import('./components/FloatingWhatsApp').then((m) => ({ default: m.FloatingWhatsApp })));
-const MobileCtaBar = lazy(() => import('./components/MobileCtaBar').then((m) => ({ default: m.MobileCtaBar })));
+
+/**
+ * Meldet der HTML-Huelle, dass die Seite steht.
+ *
+ * Setzt ein Attribut *und* feuert ein Event, beides sofort und ohne
+ * requestAnimationFrame: die frühere Fassung wartete zwei Frames und raeumte
+ * den rAF im Cleanup wieder ab — setzte die Suspense-Grenze zwischendurch aus,
+ * verwarf React den Effekt und der Frame kam nie. Der Vorspann hing dann bis
+ * zum Notausstieg. Das Attribut ueberlebt jedes Aus- und Wiedereinhaengen.
+ */
+const Ready: React.FC = () => {
+  useEffect(() => {
+    document.documentElement.dataset.appReady = '1';
+    window.dispatchEvent(new Event('app-ready'));
+  }, []);
+  return null;
+};
 
 export default function App() {
   return (
@@ -40,29 +54,28 @@ export default function App() {
 
       <main>
         <Hero />
-        {/* Ein einziges Suspense um alles Nachgelagerte: `null` als Rueckfall,
-            damit unterhalb des Falzes kein Platzhalter aufblitzt. */}
+        <Channels />
+        <FilmsSeries />
+        {/* Der Vorspann liegt darueber, bis auch dieser Chunk da ist —
+            `Ready` steht innerhalb derselben Grenze. */}
         <Suspense fallback={null}>
-          <Channels />
-          <FilmsSeries />
           <Pricing />
-          <AppCompat />
-          <Benefits />
-          <BuySteps />
-          <HowItWorks />
-          <Comparison />
-          <Football />
-          <Reviews />
-          <FAQ />
-          <FinalCta />
+          <Ready />
         </Suspense>
+        <AppCompat />
+        <Benefits />
+        <BuySteps />
+        <HowItWorks />
+        <Comparison />
+        <Football />
+        <Reviews />
+        <FAQ />
+        <FinalCta />
       </main>
 
-      <Suspense fallback={null}>
-        <Footer />
-        <FloatingWhatsApp />
-        <MobileCtaBar />
-      </Suspense>
+      <Footer />
+      <FloatingWhatsApp />
+      <MobileCtaBar />
     </div>
   );
 }
