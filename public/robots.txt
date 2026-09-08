@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://iptvgermany.app/sitemap.xml
+Sitemap: https://www.iptvgermany.app/sitemap.xml
