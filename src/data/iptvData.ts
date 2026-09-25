@@ -64,7 +64,7 @@ export const SEO = {
  * ohne Leerzeichen und ohne führendes Plus; sie steckt nur in dieser URL.
  */
 export const CONTACT = {
-  whatsapp: 'https://wa.me/447414662070',
+  whatsapp: 'https://wa.me/447832486269',
 };
 
 /** Gemeinsame Leistungsliste für jedes Ein-Geräte-Paket. */
