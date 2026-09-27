@@ -106,10 +106,20 @@ function fireAds(kind: ConversionKind): void {
   window.gtag?.('event', 'conversion', { send_to: `${GOOGLE_ADS_ID}/${label}` });
 }
 
+/** When the last click was counted, so the same action is never counted twice. */
+let lastRecordedAt = 0;
+
 function record(kind: ConversionKind): void {
+  lastRecordedAt = Date.now();
   fireAds(kind);
   beacon(kind);
 }
+
+/** A URL that opens a WhatsApp chat, however it was written. */
+const WHATSAPP_URL = /(?:\/\/)(?:wa\.me\/|api\.whatsapp\.com\/|web\.whatsapp\.com\/send)|^whatsapp:/i;
+
+/** How long after a counted click a WhatsApp window belongs to that click. */
+const SAME_ACTION_MS = 1500;
 
 /**
  * Counts an order click directly.
@@ -194,8 +204,26 @@ export function trackConversions(): () => void {
 
   document.addEventListener('click', onClick, true);
   document.addEventListener('auxclick', onClick, true);
+
+  // Many CTAs are buttons whose handler calls window.open('https://wa.me/...')
+  // instead of being a link, so the click listener above has no href to see
+  // and those chats were never counted. Opening WhatsApp from code counts too,
+  // unless a click was counted a moment ago: that is the same action.
+  const originalOpen = window.open;
+  window.open = function (url?: string | URL, target?: string, features?: string) {
+    try {
+      if (url && WHATSAPP_URL.test(String(url)) && Date.now() - lastRecordedAt > SAME_ACTION_MS) {
+        record('whatsapp');
+      }
+    } catch {
+      // Counting must never stop the chat from opening.
+    }
+    return originalOpen.call(window, url, target, features);
+  };
+
   return () => {
     document.removeEventListener('click', onClick, true);
     document.removeEventListener('auxclick', onClick, true);
+    window.open = originalOpen;
   };
 }
